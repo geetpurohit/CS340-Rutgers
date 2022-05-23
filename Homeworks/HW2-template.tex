@@ -1,0 +1,323 @@
+\documentclass{article}
+
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%=====================================================
+% Add PACKAGES Here (You typically would not need to):
+%=====================================================
+
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+
+%=====================================================
+% Ignore This Part (But Do NOT Delete It:)
+%=====================================================
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{fun}{Fun with Algorithms}
+\newtheorem*{challenge}{Challenge Yourself}
+\def\fline{\rule{0.75\linewidth}{0.5pt}}
+\newcommand{\finishline}{\begin{center}\fline\end{center}}
+\newtheorem*{solution*}{Solution}
+\newenvironment{solution}{\begin{solution*}}{{\finishline} \end{solution*}}
+\newcommand{\grade}[1]{\hfill{\textbf{($\mathbf{#1}$ points)}}}
+\newcommand{\thisdate}{\today}
+\newcommand{\thissemester}{\textbf{Rutgers: Spring 2022}}
+\newcommand{\thiscourse}{CS 344: Design and Analysis of Computer Algorithms} 
+\newcommand{\thishomework}{Number} 
+\newcommand{\thisname}{Name} 
+\newcommand{\thisextension}{Yes/No} 
+
+\headheight 40pt              
+\headsep 10pt
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small \textbf{Only for the personal use of students registered in CS 344, Spring 2022 at Rutgers University. Redistribution out of this class is strictly prohibited.}}
+\pagestyle{fancy}
+
+\newcommand{\thisheading}{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { \textbf{\thiscourse \hfill \thissemester} }
+       \vspace{4mm}
+       \hbox to 6.28in { {\Large \hfill Homework \#\thishomework \hfill} }
+       \vspace{2mm}
+         \hbox to 6.28in { { \hfill Deadline: Tuesday, February 22, 11:59 PM  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.28in { \emph{Name: \thisname \hfill Extension: \thisextension}}
+      \vspace{2mm}}
+      }
+   \end{center}
+   \bigskip
+}
+
+%=====================================================
+% Some useful MACROS (you can define your own in the same exact way also)
+%=====================================================
+
+
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\prob}[1]{\Pr\paren{#1}}
+\newcommand{\expect}[1]{\Exp\bracket{#1}}
+\newcommand{\var}[1]{\textnormal{Var}\bracket{#1}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\poly}{\mbox{\rm poly}}
+
+
+%=====================================================
+% Fill Out This Part With Your Own Information:
+%=====================================================
+
+
+\renewcommand{\thishomework}{2} %Homework number
+\renewcommand{\thisname}{FIRST LAST} % Enter your name here
+\renewcommand{\thisextension}{Yes/No} % Pick only one of the two options accordingly
+
+\begin{document}
+
+\thisheading
+\vspace{-0.75cm}
+\subsection*{Homework Policy}
+\begin{itemize}
+\item If you leave a question completely blank, you will receive 25\% of the grade for that question. This however does not apply to the extra credit questions.
+\item You are allowed to discuss the homework problems with other students in the class. \textbf{But you must write your solutions independently.} 
+You may also consult all the materials used in this course (video recordings, notes, textbook, etc.) while writing your solution, but no other resources are allowed.
+\item Do not forget to write down your name and whether or not you are using one of your two extensions. Submit your homework on Canvas. 
+\item Unless  specified otherwise, you may use any algorithm covered in class as a ``black box'' -- for example you can simply write ``sort the array in $\Theta(n\log{n})$ time using merge sort''.
+\item Remember to always \textbf{prove the correctness} of your algorithms and \textbf{analyze their running time} (or any other efficiency measure asked in the question). See ``Practice Homework'' for an example.  
+
+\item The ``Challenge yourself'' and ``Fun with algorithms''  are both extra credit. These problems are significantly more challenging than the standard problems you see in this course (including lectures, homeworks, and exams). 
+As a general rule, only attempt to solve these problems if you  enjoy them. 
+\end{itemize}
+
+\finishline
+
+
+
+\bigskip
+
+\begin{problem}
+	Suppose we have an array $A[1:n]$ of $n$ \emph{distinct} numbers. For any element $A[i]$, we define the \textbf{rank} of $A[i]$, denoted by $rank(A[i])$, as the number of elements in $A$ that are strictly smaller than $A[i]$ plus one; so $rank(A[i])$ 
+	is also the correct position of $A[i]$ in the sorted order of $A$. 
+	
+	Suppose we have an algorithm \textbf{magic-pivot} that given any array $B[1:m]$ (for any $m > 0$), returns an index $i$ such that $rank(B[i]) = m/4$ and has worst-case runtime of $O(n)$\footnote{Such an algorithm indeed
+	exists, but its description is rather complicated and not relevant to us in this problem.}. 
+
+	\textbf{Example:} if $B=[1,7,6,3,13,4,5,11]$, then \textbf{magic-pivot}$(B)$ will return index $4$ as rank of $B[4]=3$ is $2$ which is $m/4$ in this case (rank of $B[4]=3$ is $2$ since there is only one element smaller than $3$ in $B$). 
+	
+	\begin{enumerate}
+	\item[(a)] Use \textbf{magic-pivot} as a black-box to obtain a {deterministic} quick-sort algorithm with worst-case running time of $O(n\log{n})$. \grade{10}
+	
+	\begin{solution}
+		The solution to Problem 1, part (a) goes here. 
+	\end{solution}
+	
+	
+	\item[(b)] Use \textbf{magic-pivot} as a black-box to design an algorithm that given the array $A$ and any integer $1 \leq r \leq n$, finds the element in $A$ that has rank $r$ in $O(n)$ time\footnote{Note that an algorithm with runtime $O(n\log{n})$ follows immediately from part (a) -- sort the array and return the element at position $r$. The goal however is to obtain an algorithm with runtime $O(n)$.}. \grade{15}
+	
+	\emph{Hint:} Suppose we run \textbf{partition} subroutine in quick sort with pivot $p$ and it places it in position $q$. Then, if $r < q$, we only need to look for the answer in the subarray $A[1:q]$ and 
+	if $r > q$, we need to look for it in the subarray $A[q+1:n]$ (although, what is the new rank we should look for now?). 
+	
+	\begin{solution}
+	
+		The solution to Problem 1, part (b) goes here. 
+	\end{solution}
+	
+	
+	\end{enumerate}
+	
+\end{problem}
+
+\begin{problem}
+Suppose we have an array $A[1:n]$ which consists of numbers $\set{1,\ldots,n}$ written in some arbitrary order (this means that $A$ is a \emph{permutation} of the set $\set{1,\ldots,n}$). 
+Our goal in this problem is to design a very fast randomized algorithm that can find an index $i$ in this array such that $A[i] \mod 8 \in \set{1,2}$, i.e., the reminder of dividing $A[i]$ by $8$ is either $1$ or $2$. 
+For simplicity, in the following, we assume that $n$ itself is a multiple of $8$ and 
+is at least $8$ (so a correct answer always exist). 
+
+For instance, if $n=8$ and the array is $A=[8,7,2,5,4,6,3,1]$, we want to output either of indices $3$ or $8$. 
+
+\begin{enumerate}
+\item[(a)]	Suppose we sample an index $i$ from $\set{1,\ldots,n}$ uniformly at random. What is the probability that $i$ is a correct answer, i.e., $A[i] \mod 8 \in \set{1,2}$? \grade{5} 
+
+\begin{solution}
+
+		The solution to Problem 2, part (a) goes here. 
+	\end{solution}
+	
+	
+\item[(b)] Suppose we sample $m$ indices from $\set{1,\ldots,n}$ uniformly at random and with repetition. What is the probability that none of these indices is a correct answer?  \grade{5}
+
+\begin{solution}
+
+		The solution to Problem 2, part (b) goes here. 
+	\end{solution}
+	
+	
+\end{enumerate}
+
+Now, consider the following simple algorithm for this problem: 
+
+
+\textbf{Find-Index-1$(A[1:n])$:} 
+\begin{itemize}
+	\item Let $i=1$.  While $A[i] \mod 8 \notin \set{1,2}$, sample $i \in \set{1,\ldots,n}$ uniformly at random. Output $i$. 
+\end{itemize}
+
+The proof of correctness of this algorithm is straightforward and we skip it in this question. 
+
+\begin{enumerate}
+\item[(c)] What is the worse-case \textbf{expected} running time of \textbf{Find-Index-1$(A[1:n])$}? Remember to prove your answer formally. \grade{7} 
+
+\begin{solution}
+		The solution to Problem 2, part (c) goes here. 
+	\end{solution}
+	
+	
+\end{enumerate}
+
+The problem with \textbf{Find-Index-1} is that in the worst-case (and not in expectation), it may actually never terminate! For this reason, let us consider 
+a simple modification to  this algorithm as follows. 
+
+\textbf{Find-Index-2$(A[1:n])$:} 
+\begin{itemize}
+	\item For $j=1$ to $n$: 
+	\begin{itemize}
+		\item Sample $i \in \set{1,\ldots,n}$ uniformly at random and if $A[i] \mod 8 \in \set{1,2}$, output $i$ and terminate; otherwise, continue. 
+	\end{itemize}
+	\item If the for-loop never terminated, go over the array $A$ one element at a time to find an index $i$ with $A[i] \mod 8 \in \set{1,2}$ and output it as the answer. 
+\end{itemize}
+
+Again, we skip the proof of correctness of this algorithm. 
+
+\begin{enumerate}
+\item[(d)] What is the \textbf{worst-case running time} of \textbf{Find-Index-2$(A[1:n])$}? What about its worst-case \textbf{expected} running time? Remember to prove your answer formally.
+
+\grade{8} 
+
+\begin{solution}
+		The solution to Problem 2, part (d) goes here. 
+	\end{solution}
+	
+\end{enumerate}
+
+\end{problem}
+
+\smallskip
+
+\begin{problem}
+Given an array $A[1:n]$ of $n$ positive integers (possibly with repetitions), your goal is to find whether there is a sub-array $A[l:r]$ such that
+\[
+    \sum_{i=l}^r A[i] = n.
+\]
+\textbf{Example.} Given $A = [13,1,2,3,4,7,2,3,8,9]$ for $n=10$, the answer is \emph{Yes} since elements in $A[2:5]$ add up to $n=10$. 
+On the other hand, if the input array is $A = [3,2,6,8,20,2,4]$ for $n=7$, the answer is \emph{No} since no sub-array of $A$ adds up to $n=7$. 
+
+\emph{Hint:} Observe that if $\sum_{i=l}^r A[i] = n$, then $\sum_{i=1}^{l-1} A[i] = \sum_{i=1}^{r} A[i]-n$; this may come handy! 
+
+\begin{enumerate}
+\item[(a)] Design an algorithm for this problem with worst-case  runtime of $O(n)$. \grade{15}
+
+\begin{solution}
+		The solution to Problem 3, part (a) goes here. 
+	\end{solution}
+	
+	
+\item[(b)] Now suppose our goal is to instead find whether there is a sub-array $A[l,r]$ such that 
+\[
+	\sum_{i=l}^r A[i] = n^2.
+\]
+Design a \underline{randomized} algorithm for this case with worst-case \underline{expected} runtime of $O(n)$. \grade{10}
+
+\begin{solution}
+		The solution to Problem 3, part (b) goes here. 
+	\end{solution}
+	
+	
+\end{enumerate}
+
+\end{problem}
+
+
+
+\begin{problem}
+You are given an array of characters $s[1:n]$ such that each $s[i]$ is a small case letter from the English alphabet. 
+You are also provided with a black-box algorithm $dict$ that given two indices $i,j \in [n]$, $dict(i,j)$ returns whether the sub-array $s[i:j]$ in array $s$ forms a valid word in English or not in $O(1)$ time. (Note that this algorithm is provided to you and you 
+do not need to implement it in any way). 
+
+Design and analyze a dynamic programming algorithm to find whether the given array $s$ can be partitioned into a sequence of valid words in English. The  runtime of your algorithm should be $O(n^2)$.  
+
+
+\textbf{Example:} Input Array: $s=[maytheforcebewithyou]$.
+
+Assuming the algorithm $dict$ returns that $may, the, force, be, with$ and  $you$ are valid words (this means that for instance, for $may$ we have $dict(1,3)=\text{True}$), this array can be partitioned into a sequence of valid words.
+
+\end{problem}
+
+\begin{solution}
+
+		The solution to Problem 4 goes here. 
+	\end{solution}
+	
+	
+
+
+\smallskip
+
+
+
+\begin{challenge}
+	You are given an array $A$ of non-negative integers. Every element except one has a duplicate. Design an algorithm that finds the element with no duplicate in $O(n)$ time (You are promised that there is exactly one element with no duplicate).
+		
+	\textbf{Example.} A couple of examples for this problem:
+	\begin{enumerate}
+			
+		\item  $A = [4,3,1,1,4]$
+			
+			Output: $3$
+			
+			Explanation:
+			$3$ is the only number that does not have a duplicate
+			
+			\item  $A = [3,1,4,5,1,4,3]$
+			
+			Output: $5$
+			
+			Explanation:
+			$5$ is the only number that does not have a duplicate
+		\end{enumerate}
+\end{challenge}
+
+\smallskip
+
+\begin{fun}
+Recall that Fibonacci numbers form a sequence $F_n$ where $F_0 = 0$, $F_1 = 1$, and $F_n = F_{n-1} + F_{n-2}$. 
+The standard algorithm for finding the $n$-th Fibonacci number takes $O(n)$ time. The goal of this question is to design a significantly faster algorithm for this problem. \grade{+10}
+		\begin{enumerate}[label=(\alph*)]
+		\item Prove by induction that for all $n \geq 1$: 
+		\begin{align*}
+			\begin{bmatrix}
+				1 & 1 \\
+				1 & 0
+			\end{bmatrix}^n
+			&= 	\begin{bmatrix}
+				F_{n+1} & F_n \\
+				F_n & F_{n-1}
+			\end{bmatrix}.
+		\end{align*}
+		\item Use the first part to design an algorithm that finds $F_n$ in $O(\log{n})$ time. 
+	\end{enumerate}	 
+\end{fun}
+
+\end{document}
+
+
+
+
