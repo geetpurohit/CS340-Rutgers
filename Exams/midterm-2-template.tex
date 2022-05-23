@@ -1,0 +1,249 @@
+\documentclass{article}
+
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%=====================================================
+% Add PACKAGES Here (You typically would not need to):
+%=====================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+%=====================================================
+% Ignore This Part (But Do NOT Delete It:)
+%=====================================================
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{fun}{Fun with Algorithms}
+\newtheorem*{challenge}{Challenge Yourself}
+\def\fline{\rule{0.75\linewidth}{0.5pt}}
+\newcommand{\finishline}{\vspace{-15pt}\begin{center}\fline\end{center}}
+\newtheorem*{solution*}{Solution}
+\newenvironment{solution}{\begin{solution*}}{{} \end{solution*}}
+\newcommand{\grade}[1]{\hfill{\textbf{($\mathbf{#1}$ points)}}}
+\newcommand{\thisdate}{\today}
+\newcommand{\thissemester}{\textbf{Rutgers: Spring 2022}}
+\newcommand{\thiscourse}{CS 344: Design and Analysis of Computer Algorithms} 
+\newcommand{\thishomework}{Number} 
+\newcommand{\thisname}{Name} 
+\newcommand{\thisextension}{Yes/No} 
+
+\headheight 40pt              
+\headsep 20pt
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small \textbf{Only for the personal use of students registered in CS 344, Spring 2022 at Rutgers University. Redistribution out of this class is strictly prohibited.}}
+\pagestyle{fancy}
+
+\newcommand{\thisheading}{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { \textbf{\thiscourse \hfill \thissemester} }
+       \vspace{8mm}
+       \hbox to 6.28in { {\Large \hfill  Midterm Exam \#\thishomework \hfill} }
+       \vspace{2mm}
+         \hbox to 6.28in { { \hfill ~ April 07, 2022 \hfill} }
+       \vspace{4mm}
+       \hbox to 6.28in { \emph{Name:  \thisname \hfill NetID:  \thisextension}}
+      \vspace{2mm}}
+      }
+   \end{center}
+   \bigskip
+}
+
+%=====================================================
+% Some useful MACROS (you can define your own in the same exact way also)
+%=====================================================
+
+
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\prob}[1]{\Pr\paren{#1}}
+\newcommand{\expect}[1]{\Exp\bracket{#1}}
+\newcommand{\var}[1]{\textnormal{Var}\bracket{#1}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\poly}{\mbox{\rm poly}}
+
+\newcommand{\totalsum}{\textnormal{\texttt{TOTAL-SUM}}}
+\newcommand{\maxalg}{\textnormal{\texttt{MAX-ALG}}}
+\newcommand{\minalg}{\textnormal{\texttt{MIN-RAND-ALG}}}
+
+%=====================================================
+% Fill Out This Part With Your Own Information:
+%=====================================================
+
+
+\renewcommand{\thishomework}{2} %Homework number
+\renewcommand{\thisname}{} % Your name
+\renewcommand{\thisextension}{} % Pick only one of the two options accordingly
+
+\begin{document}
+
+\thisheading
+
+\vspace{-0.5cm}
+\subsection*{Instructions}
+
+\begin{enumerate}
+	\item Do not forget to write your name and NetID above, and to sign Rutgers honor pledge below. 
+	\item The exam contains $4$ problems worth $100$ points in total \emph{plus} one {extra} credit problem worth $10$ points. 
+	\item This is a take-home exam. You have exactly 24 hours to finish the exam, starting from Thursday, April 07, 9am EST until Friday, April 08, 9am EST.
+	\item The exam should be done \textbf{individually} and you are not allowed to discuss these questions with anyone else. This includes asking any questions or clarifications
+	regarding the exam from other students or posting them publicly on Piazza (\textbf{any inquiry should be posted privately on Piazza -- also no hints or verifying a partial solution will be given during the exam}). You may however consult all
+	the materials used in this course (video lectures, notes, textbook, etc.) while writing your solution, but \textbf{no other resources are allowed}.
+
+	\item Remember that you can leave a problem (or parts of it) entirely blank and receive $25\%$ of the grade for that problem (or part). However, this should not  discourage you from attempting a problem if you think 
+	you know how to approach it as you will receive partial credit more than $25\%$ if you are on the right track. But keep in mind that if you simply do not know the answer, writing a very wrong answer may lead to $0\%$ credit.
+	
+	The only \textbf{exception} to this rule is the extra credit problem: you do {not get any credit for leaving the extra credit problem blank}, and there is almost no partial credit on that problem.
+	
+	\item \textbf{You should always prove the correctness of your algorithm and analyze its runtime.} Also, as a general rule, avoid using complicated pseudo-code and instead explain your algorithm in English. 
+	\item You may use any algorithm presented in the class or homeworks as a building block for your solutions. 
+\end{enumerate}
+
+\finishline
+
+\paragraph{Rutgers honor pledge:} 
+
+\begin{quote}
+\emph{On my honor, I have neither received nor given any unauthorized assistance on this
+examination.} 
+\end{quote}
+\hfill{Signature:\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}
+
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|r|c|}
+\hline
+Problem. \# & Points & Score \\ \hline\hline
+$1$ & 25 & ~~~~~~~~~~~\\  \hline
+$2$ & 25 & \\ \hline
+$3$ & 25 & \\ \hline
+$4$ & 25 & \\ \hline
+$5$ & +10 & \\ \hline
+Total & $100 + 10$ & \\ \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\begin{problem}\label{basics}~
+\begin{enumerate}[label=(\alph*)]
+	\item Suppose $G=(V,E)$ is any undirected graph and $(S,V-S)$ is a cut with zero cut edges in $G$. Prove that if we pick two arbitrary vertices $u \in S$ and $v \in V - S$, and add a new edge $(u,v)$, in the resulting graph, there is no cycle that contains the edge $(u,v)$. 
+	\grade{12.5}
+	
+	\begin{solution}
+
+	\end{solution}
+	
+	\newpage
+	\item Suppose $G = (V,E)$ is an undirected graph with weight $w_e$ on each edge $e$. Additionally, suppose that $G$ has an edge $f$ with weight \emph{strictly larger} than all other edges in $G$. 
+	Prove that if $f$ belongs to a \emph{cycle} in $G$, then \emph{no} minimum spanning tree (MST) of $G$ can contain the edge $f$. 
+	 \grade{12.5}
+	 
+	 \begin{solution}
+
+	\end{solution}
+	
+\end{enumerate}
+\end{problem}
+
+\newpage
+
+
+\begin{problem}\label{greedy}
+	You have a bag of $m$ cookies and a group of $n$ friends. For each friend $1 \leq i \leq n$, you know the ``greed factor'' of your friend as a number $G[i]$:
+	this is the minimum number of cookies you should give to this friend to make them stop complaining. Of course, you would like to find a way to distribute your cookies in a way to \emph{minimize} the number of your friends that are still complaining. 
+	
+	Design an $O(n\log{n})$ time greedy algorithm to find an assignment of the cookies to your friends that minimizes the number of the friends that are still complaining: 
+	recall that a friend $i$ stops complaining if we assign them $c_i \geq G[i]$ cookies. \grade{25}
+	
+	Assume that the greed factors of the friends are all distinct. The output should be a list of $n$ pairs consisting of a friend identified by their unique greed factor, and the number of cookies assigned to this friend. 
+
+\paragraph{Example:} An example with $m=11$ and $n=6$ is as follows. 
+\begin{itemize}
+	\item \textbf{Input:} The array of greed factors $G=[6,3,5,2,8,7]$.
+	\item \textbf{Output:} A list of pairs with first elements chosen from $G$ to identify the friend and the second elements denoting the number of cookies assigned to them: 
+	\[
+		[(5,5),(3,3),(2,3),(6,0),(8,0),(7,0)].
+	\]
+	This means that the friends
+	with greed factors $5,3,$ and $2$, each received $5,3,$ and $3$ cookies respectively, while the remaining friends received zero cookies. This reduces the number of friends who are still complaining to three. 
+\end{itemize}
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+	
+
+\newpage
+
+
+\begin{problem}\label{search}
+	You are given a directed graph $G=(V,E)$ with blue and red edges, and two vertices $s$ and $t$. Design and analyze an algorithm that outputs 
+	whether there exists a \emph{walk} from $s$ to $t$ in $G$ that contains an \emph{even} number of red edges; the walk can contain an arbitrary number of blue edges.  \grade{25}
+	
+	A complete solution consists of three part: the algorithm or reduction (\textbf{10 points}), the proof of correctness (\textbf{10 points}), 
+	and the runtime analysis (\textbf{5 points}). 
+\end{problem}
+\begin{solution}
+
+\end{solution}
+	
+\newpage
+
+
+\begin{problem}\label{mst}
+	A \textbf{feedback edge set} of an undirected connected graph $G=(V,E)$ is a set of edges $F \subseteq E$ such that any cycle in $G$ has at least one edge in $F$. In other words, removing the edges in $F$ from $G$ 
+	leaves the graph $G-F$ without any cycle. Describe and analyze an $O(m\log{m})$ time algorithm to compute the minimum-weight feedback edge set of a given graph $G=(V,E)$ with \emph{positive} weight $w_e $ on each edge $e \in E$. 
+
+	\grade{25}
+	
+	A complete solution consists of three part: the algorithm or reduction (\textbf{10 points}), the proof of correctness (\textbf{10 points}), 
+	and the runtime analysis (\textbf{5 points}). 
+
+
+	\smallskip
+	\emph{Hint:} Observe that the graph $G - F$ should be a spanning tree. (You have already seen the rest of the solution in your homework!) 
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+	
+\newpage
+
+
+\begin{problem}[\textbf{Extra Credit}]\label{mst}
+	Consider the following different (and less efficient) algorithm for computing an MST of a given undirected and connected graph $G=(V,E)$ with edge weight $w_e$ on each $e \in E$: 
+	\begin{enumerate}
+		\item Sort the edges in decreasing (non-increasing) order of their weights. 
+		\item Let $H = G$ be a copy of the graph $G$. 
+		\item For $i=1$ to $m$ (in the sorted ordering of edges): 
+		\begin{enumerate}
+			\item If removing $e_i$ from $H$ does not make $H$ disconnected, remove $e_i$ from $H$. 
+		\end{enumerate}
+		\item Return $H$ as a minimum spanning tree of $G$. 
+	\end{enumerate}
+	Prove the correctness of this algorithm, i.e., that it outputs an MST of any given graph $G$ (we ignore the runtime of this algorithm in this problem). \grade{+10}
+\end{problem}
+
+\begin{solution}
+
+\end{solution}
+	
+
+\end{document}
+
+
+
+
+

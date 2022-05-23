@@ -1,0 +1,246 @@
+\documentclass{article}
+
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%=====================================================
+% Add PACKAGES Here (You typically would not need to):
+%=====================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+%=====================================================
+% Ignore This Part (But Do NOT Delete It:)
+%=====================================================
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{fun}{Fun with Algorithms}
+\newtheorem*{challenge}{Challenge Yourself}
+\def\fline{\rule{0.75\linewidth}{0.5pt}}
+\newcommand{\finishline}{\vspace{-15pt}\begin{center}\fline\end{center}}
+\newtheorem*{solution*}{Solution}
+\newenvironment{solution}{\begin{solution*}}{{} \end{solution*}}
+\newcommand{\grade}[1]{\hfill{\textbf{($\mathbf{#1}$ points)}}}
+\newcommand{\thisdate}{\today}
+\newcommand{\thissemester}{\textbf{Rutgers: Spring 2022}}
+\newcommand{\thiscourse}{CS 344: Design and Analysis of Computer Algorithms} 
+\newcommand{\thishomework}{Number} 
+\newcommand{\thisname}{Name} 
+\newcommand{\thisextension}{Yes/No} 
+
+\headheight 40pt              
+\headsep 20pt
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small \textbf{Only for the personal use of students registered in CS 344, Spring 2022 at Rutgers University. Redistribution out of this class is strictly prohibited.}}
+\pagestyle{fancy}
+
+\newcommand{\thisheading}{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { \textbf{\thiscourse \hfill \thissemester} }
+       \vspace{8mm}
+       \hbox to 6.28in { {\Large \hfill Practice Midterm Exam \#\thishomework \hfill} }
+       \vspace{2mm}
+         \hbox to 6.28in { { \hfill ~ \hfill} }
+       \vspace{4mm}
+       \hbox to 6.28in { \emph{Name: \underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~} \thisname \hfill NetID: \underline{~~~~~~~~~~~~~~~~~~~~} \thisextension}}
+      \vspace{2mm}}
+      }
+   \end{center}
+   \bigskip
+}
+
+%=====================================================
+% Some useful MACROS (you can define your own in the same exact way also)
+%=====================================================
+
+
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\prob}[1]{\Pr\paren{#1}}
+\newcommand{\expect}[1]{\Exp\bracket{#1}}
+\newcommand{\var}[1]{\textnormal{Var}\bracket{#1}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\poly}{\mbox{\rm poly}}
+
+\newcommand{\leasttwoalg}{\textnormal{\texttt{FIND-SMALLEST-TWO}}}
+\newcommand{\maxalg}{\textnormal{\texttt{MAX-ALG}}}
+\newcommand{\minalg}{\textnormal{\texttt{MIN-RAND-ALG}}}
+
+%=====================================================
+% Fill Out This Part With Your Own Information:
+%=====================================================
+
+
+\renewcommand{\thishomework}{1} %Homework number
+\renewcommand{\thisname}{} % Your name
+\renewcommand{\thisextension}{} % Pick only one of the two options accordingly
+
+\begin{document}
+
+\thisheading
+
+\vspace{-0.5cm}
+\subsection*{Instructions}
+
+\begin{enumerate}
+	\item Do not forget to write your name and NetID above, and to sign Rutgers honor pledge below. 
+	\item The exam contains $4$ problems worth $100$ points in total \emph{plus} one {extra} credit problem worth $10$ points. 
+	%\item This is a take-home exam. You have exactly 24 hours to finish the exam. %, starting from March 1, 9am EST until March
+	\item The exam should be done \textbf{individually} and you are not allowed to discuss these questions with anyone else. This includes asking any questions or clarifications
+	regarding the exam from other students or posting them publicly on Piazza (\textbf{any inquiry should be posted privately on Piazza}). You may however consult all
+	the materials used in this course (video lectures, notes, textbook, etc.) while writing your solution, but \textbf{no other resources are allowed}.
+
+	\item Remember that you can leave a problem (or parts of it) entirely blank and receive $25\%$ of the grade for that problem (or part). However, this should not  discourage you from attempting a problem if you think 
+	you know how to approach it as you will receive partial credit more than $25\%$ if you are on the right track. But keep in mind that if you simply do not know the answer, writing a very wrong answer may lead to $0\%$ credit.
+	
+	The only \textbf{exception} to this rule is the extra credit problem: you do {not get any credit for leaving the extra credit problem blank}, and there is almost no partial credit on that problem.
+	
+	\item \textbf{You should always prove the correctness of your algorithm and analyze its runtime.} Also, as a general rule, avoid using complicated pseudo-code and instead explain your algorithm in English. 
+	\item You may use any algorithm presented in the class or homeworks as a building block for your solutions. 
+\end{enumerate}
+
+\finishline
+
+\paragraph{Rutgers honor pledge:} 
+
+\begin{quote}
+\emph{On my honor, I have neither received nor given any unauthorized assistance on this
+examination.} 
+\end{quote}
+\hfill{Signature:\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}
+
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|r|c|}
+\hline
+Problem. \# & Points & Score \\ \hline\hline
+$1$ & 25 & ~~~~~~~~~~~\\  \hline
+$2$ & 25 & \\ \hline
+$3$ & 25 & \\ \hline
+$4$ & 25 & \\ \hline
+$5$ & +10 & \\ \hline
+Total & $100 + 10$ & \\ \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\begin{problem}\label{basics}~
+\begin{enumerate}[label=(\alph*)]
+	\item  Determine the \emph{strongest} asymptotic relation between the functions 
+	\[
+	f(n) = \sqrt{\log{n}} \quad \text{and} \quad g(n) = \frac{n}{2^{(\log\log{n})}},
+	\]
+	i.e., whether $f(n) = o(g(n))$, $f(n) = O(g(n))$, $f(n) = \Omega(g(n))$, $f(n) = \omega(g(n))$, or $f(n) = \Theta(g(n))$. 
+	Remember to prove the correctness of your choice. \grade{15}
+\begin{solution}
+\end{solution}
+
+	\newpage
+	\item Use the \emph{recursion tree} method to solve the following recurrence $T(n)$ by finding the \emph{tightest} function $f(n)$ such that $T(n) = O(f(n))$.   \grade{10}
+	\begin{align*}
+		T(n) &\leq 2 \cdot T(n/3) + O(n) 
+	\end{align*} 
+	\begin{solution}
+\end{solution}
+	
+\end{enumerate}
+
+
+\end{problem}
+
+\newpage
+
+
+\begin{problem}\label{induction}
+	Consider the algorithm below for finding the smallest two numbers in an array $A$ of size $n \geq 2$.  
+	
+	\medskip
+	
+	$\leasttwoalg (A[1:n])$: \vspace{-0.4cm}
+	\begin{enumerate}
+		\item If $n=2$: return $(A[1],A[2])$.
+		
+		\item Otherwise, let $(m_1,m_2) \leftarrow \leasttwoalg(A[1:n-1])$. 
+		\item Return the two smallest numbers among $m_1,m_2$, and $A[n]$. 
+	\end{enumerate}
+	We analyze \leasttwoalg~ in this question. 
+	\begin{enumerate}[label=(\alph*)]
+		\item Use \textbf{induction} to prove the correctness of this algorithm. \grade{15}
+		
+		\begin{solution}
+\end{solution}
+
+		\newpage
+		\item Write a recurrence for this algorithm and solve it to obtain a tight upper bound on the worst case runtime of this algorithm. You can use any method you like for solving this recurrence. 		\grade{10}
+		
+		\begin{solution}
+\end{solution}
+
+	\end{enumerate}
+\end{problem} 
+
+\newpage
+
+\begin{problem}\label{sort}
+	You are given an \emph{unsorted} array $A[1:n]$ of $n$ real numbers with possible repetitions. Design an algorithm that in $O(n\log{n})$ time finds the largest number of time any entry is repeated in the array $A$. 
+	
+	Remember to \emph{separately} write your algorithm (\textbf{10 points}), the proof of correctness (\textbf{10 points}), and runtime analysis (\textbf{5 points}). 
+	
+	\medskip
+	\emph{Example.} For $A=[1,7.5,2,5.5,7.5,7.5,1,5,9.5,1]$ the correct answer is  $3$ ($1$ and $7.5$ are repeated $3$ times). 
+
+\begin{solution}
+\end{solution}
+
+\end{problem}
+
+
+\newpage
+\begin{problem}\label{DP}
+	You are given a set of $n$ items with weights $w_1,\ldots,w_n$ and values $v_1,\ldots,v_n$. You are also given \emph{two} knapsacks with sizes $W_1,W_2$. The goal is to pick a subset of items with maximum value such that 
+	we can place each of the chosen items in one of the two knapsacks with the restriction that the total weight of items in each knapsack should be smaller than its size. Design an $O(n \cdot W_1 \cdot W_2)$ time dynamic programming algorithm
+	that outputs the maximum value we can obtain by picking a subset of items that fits the two knapsacks.
+	
+	Remember to \emph{separately} write your specification of recursive formula in plain English (\textbf{7.5 points}), your recursive solution for the formula and its proof of correctness (\textbf{10 points}), the algorithm using either memoization 
+	or bottom-up dynamic programming (\textbf{7.5 points}), and runtime analysis (\textbf{5 points}). 
+	
+	\emph{Example:} For items with weights $[1,4,2,5,1]$ and values $[2,3,1,10,1]$, and knapsacks of size $4$ and $3$, the correct output is $6$: this is achieved by picking items $1$ and $3$ in knapsack two and picking item $2$ in knapsack one -- note that we cannot fit item $4$ in either knapsack as its weight is larger than the size of each one.  
+
+
+\end{problem}
+
+ 
+ \begin{solution}
+\end{solution}
+
+\newpage
+
+\begin{problem}\label{extra}[\textbf{Extra credit}]
+	You are given an \emph{unsorted} array $A[1:n]$ of $n$ distinct numbers with the promise that each element is at most $k$ positions away from its correct position in the sorted order. 
+	Design an algorithm that sort the array $A$ in $O(n\log{k})$ time. \grade{+10}
+
+\end{problem}
+
+\begin{solution}
+\end{solution}
+
+\newpage
+\subsection*{Extra Workspace}
+
+
+\end{document}
+
+
+
+
+

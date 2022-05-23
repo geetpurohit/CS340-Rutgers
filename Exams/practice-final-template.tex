@@ -1,0 +1,327 @@
+\documentclass{article}
+
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%=====================================================
+% Add PACKAGES Here (You typically would not need to):
+%=====================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+%=====================================================
+% Ignore This Part (But Do NOT Delete It:)
+%=====================================================
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{fun}{Fun with Algorithms}
+\newtheorem*{challenge}{Challenge Yourself}
+\def\fline{\rule{0.75\linewidth}{0.5pt}}
+\newcommand{\finishline}{\vspace{-15pt}\begin{center}\fline\end{center}}
+\newtheorem*{solution*}{Solution}
+\newenvironment{solution}{\begin{solution*}}{{} \end{solution*}}
+\newcommand{\grade}[1]{\hfill{\textbf{($\mathbf{#1}$ points)}}}
+\newcommand{\thisdate}{\today}
+\newcommand{\thissemester}{\textbf{Rutgers: Spring 2022}}
+\newcommand{\thiscourse}{CS 344: Design and Analysis of Computer Algorithms} 
+\newcommand{\thishomework}{Number} 
+\newcommand{\thisname}{Name} 
+\newcommand{\thisextension}{Yes/No} 
+
+\headheight 40pt              
+\headsep 20pt
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small \textbf{Only for the personal use of students registered in CS 344, Spring 2022 at Rutgers University. Redistribution out of this class is strictly prohibited.}}
+\pagestyle{fancy}
+
+\newcommand{\thisheading}{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { \textbf{\thiscourse \hfill \thissemester} }
+       \vspace{8mm}
+       \hbox to 6.28in { {\Large \hfill Practice Final Exam  \hfill} }
+       \vspace{2mm}
+         \hbox to 6.28in { { \hfill ~ \hfill} }
+       \vspace{4mm}
+       \hbox to 6.28in { \emph{Name: \underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~} \thisname \hfill NetID: \underline{~~~~~~~~~~~~~~~~~~~~} \thisextension}}
+      \vspace{2mm}}
+      }
+   \end{center}
+   \bigskip
+}
+
+%=====================================================
+% Some useful MACROS (you can define your own in the same exact way also)
+%=====================================================
+
+
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\prob}[1]{\Pr\paren{#1}}
+\newcommand{\expect}[1]{\Exp\bracket{#1}}
+\newcommand{\var}[1]{\textnormal{Var}\bracket{#1}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\poly}{\mbox{\rm poly}}
+
+\newcommand{\leasttwoalg}{\textnormal{\texttt{FIND-SMALLEST-TWO}}}
+\newcommand{\maxalg}{\textnormal{\texttt{MAX-ALG}}}
+\newcommand{\minalg}{\textnormal{\texttt{MIN-RAND-ALG}}}
+
+%=====================================================
+% Fill Out This Part With Your Own Information:
+%=====================================================
+
+
+\renewcommand{\thishomework}{2} %Homework number
+\renewcommand{\thisname}{} % Your name
+\renewcommand{\thisextension}{} % Pick only one of the two options accordingly
+
+\begin{document}
+
+\thisheading
+
+\vspace{-0.5cm}
+\subsection*{Instructions}
+
+\begin{enumerate}
+	\item Do not forget to write your name and NetID above, and to sign Rutgers honor pledge below. 
+	\item The exam contains $5$ problems worth $100$ points in total \emph{plus} one {extra} credit problem worth $10$ points. 
+	\item The exam should be done \textbf{individually} and you are not allowed to discuss these questions with anyone else. This includes asking any questions or clarifications
+	regarding the exam from other students or posting them publicly on Piazza (\textbf{any inquiry should be posted privately on Piazza}). You may however consult all
+	the materials used in this course (video lectures, notes, textbook, etc.) while writing your solution, but \textbf{no other resources are allowed}.
+
+	\item Remember that you can leave a problem (or parts of it) entirely blank and receive $25\%$ of the grade for that problem (or part). However, this should not  discourage you from attempting a problem if you think 
+	you know how to approach it as you will receive partial credit more than $25\%$ if you are on the right track. But keep in mind that if you simply do not know the answer, writing a very wrong answer may lead to $0\%$ credit.
+	
+	The only \textbf{exception} to this rule is the extra credit problem: you do {not get any credit for leaving the extra credit problem blank}, and there is almost no partial credit on that problem.
+	
+	\item \textbf{You should always prove the correctness of your algorithm and analyze its runtime.} Also, as a general rule, avoid using complicated pseudo-code and instead explain your algorithm in English. 
+	\item You may use any algorithm presented in the class or homeworks as a building block for your solutions. 
+\end{enumerate}
+
+\finishline
+
+\paragraph{Rutgers honor pledge:} 
+
+\begin{quote}
+\emph{On my honor, I have neither received nor given any unauthorized assistance on this
+examination.} 
+\end{quote}
+\hfill{Signature:\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}
+
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|r|c|}
+\hline
+Problem. \# & Points & Score \\ \hline\hline
+$1$ & 20 & ~~~~~~~~~~~\\  \hline
+$2$ & 20 & \\ \hline
+$3$ & 20 & \\ \hline
+$4$ & 20 & \\ \hline
+$5$ & 20 & \\ \hline
+$6$ & +10 & \\ \hline
+Total & $100 + 10$ & \\ \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\begin{problem}\label{basics} 
+~
+\begin{enumerate}[label=(\alph*)]
+	\item Mark each of the assertions below as True or False and provide a short justification for your answer. 
+	
+	
+	\vspace{2cm}
+	
+		\begin{enumerate}[label=(\roman*)]
+		\item If $f(n) = n^{\log{n}}$ and $g(n) = 2^{\sqrt{n}}$, then $f(n) = \Omega(g(n))$. \grade{2.5}
+		
+		\medskip
+		\begin{solution}
+		\end{solution}
+		\vfill
+		
+		\item If $T(n) = 2T(n/2) + O(n^2)$, then $T(n) = O(n^2)$. \grade{2.5}
+		
+		\medskip
+		\begin{solution}
+		\end{solution}
+		\vfill
+		
+		\item If a problem in NP can be solved in polynomial time, then all problems in NP can be solved in polynomial time. \grade{2.5}
+		
+		\medskip
+		\begin{solution}
+		\end{solution}
+		\vfill
+				
+		\item If P = NP, then all NP-complete problems can be solved in polynomial time. \grade{2.5}
+
+\medskip
+		\begin{solution}
+		\end{solution}
+		
+	\end{enumerate} 
+
+	\vfill
+	
+\newpage
+	
+\item Prove the following statement: Consider a flow network $G$ and a maximum flow $f$ in $G$. There is always an edge $e$ with $f(e) = c_e$, i.e., there is at least one edge that carries the same amount of flow as its capacity. 
+		\grade{10}
+
+\medskip
+		\begin{solution}
+		\end{solution}
+	
+\end{enumerate}
+
+\end{problem}
+
+\newpage
+
+\newpage
+
+
+\begin{problem}\label{old}
+
+You are given a two arrays $score[1:n]$ and $wait[1:n]$, each consisting of $n$ positive integers. You are playing  a game with the following rules: 
+\begin{itemize}
+	\item For any integer $1 \leq i \leq n$, you are allowed to pick number $i$ and obtain $score[i]$ points; 
+	\item Whenever you pick a number $i$, you are no longer allowed to pick the previous $wait[i]$ numbers, i.e., any of the numbers $i-1,\ldots,i-wait[i]$. 
+\end{itemize}
+Design an $O(n)$ time dynamic programming algorithm to compute the maximum number of points you can obtain in this game. It is sufficient to write your specification and the recursive formula for computing the solution (i.e., you do \emph{not} need to write the final algorithm using either memoization or bottom-up dynamic programming). \grade{20} 
+
+\medskip
+
+Remember to \emph{separately} write your specification of recursive formula in plain English (\textbf{7.5 points}), your recursive solution for the formula and its proof of correctness (\textbf{7.5 points}), and runtime analysis (\textbf{5 points}). 
+
+
+\end{problem} 
+
+\medskip
+		\begin{solution}
+		\end{solution}
+		
+\newpage
+
+\begin{problem}\label{shortestpath}
+You are given a directed graph $G=(V,E)$ such that every \emph{edge} is colored red, blue, or green. 
+We say that a path $P_1$ is \emph{lighter} than a path $P_2$ if one of the conditions below holds:  
+\begin{itemize}
+\item $P_1$ has fewer number of red edges; 
+\item $P_1,P_2$ have the same number of red edges and $P_1$ has fewer blue edges; 
+\item $P_1,P_2$ have the same number of red and blue edges and $P_1$ has no more green edges than $P_2$. 
+\end{itemize}
+
+Design an $O(n+m\log{m})$ time algorithm that given $G$ and vertices $s,t$, finds one the lightest paths from $s$ to $t$ in $G$, namely, a path which is lighter than any other $s$-$t$ path. 
+\grade{20}
+
+\medskip
+
+Remember to \emph{separately} write your algorithm (\textbf{7.5 points}), the proof of correctness (\textbf{7.5 points}), and runtime analysis (\textbf{5 points}). 
+
+
+\end{problem}
+
+
+\medskip
+		\begin{solution}
+		\end{solution}
+		
+\newpage
+
+
+
+\begin{problem}\label{flow}
+	You are given an undirected \emph{bipartite} graph $G$ where $V$ can be partitioned into $L \cup R$ and every edge in $G$ is between a vertex in $L$ and a vertex in $R$. 
+	For any integers $p,q \geq 1$, a \textbf{$(p,q)$-factor} in $G$ is any subset of edges $M \subseteq E$ such that no vertex in $L$ is shared in more than $p$ edges of $M$ and no vertex in $R$ is shared in more than $q$ edges of $M$. 
+	As an example, notice that a \emph{matching} introduced in the class is a $(1,1)$-factor. 
+	
+	
+Design an $O((m+n) \cdot n \cdot (p+q))$ time algorithm that given a graph $G$ and two integers $p$ and $q$, outputs the size of the \emph{largest} $(p,q)$-factor of $G$. \grade{20}
+	
+	\medskip
+	
+	Remember to \emph{separately} write your algorithm (\textbf{7.5 points}), the proof of correctness (\textbf{7.5 points}), and runtime analysis (\textbf{5 points}). 
+
+\end{problem}
+
+\medskip
+		\begin{solution}
+		\end{solution}
+		
+\newpage
+
+\begin{problem}\label{NP}
+	Prove that the following problems are NP-hard. For each problem, you are only allowed to use a reduction from the problem specified. 
+	
+	\begin{enumerate}[label=(\alph*)]
+		\item \textbf{Two-Third 3-SAT Problem:} Given a 3-CNF formula $\Phi$ (in which size of each clause is \emph{at most} $3$), is there an assignment to the variables that satisfies at least $2/3$ of the clauses?   \grade{10}
+			
+		\medskip
+		For this problem, use a reduction from the \emph{3-SAT problem}. Recall that in the 3-SAT problem, we are given a 3-CNF formula $\Phi$ and the goal is to output whether there exist an assignment that satisfies \emph{all} clauses. 
+		
+		\medskip
+		\begin{solution}
+		\end{solution}
+		
+		\newpage
+\item \textbf{Maximum Pyramid Problem:} Given an undirected graph $G=(V,E)$, what is the size of the largest \textbf{pyramid} in $G$? A {pyramid} is a set of vertices $v_1,\ldots,v_k$ plus another vertex $u$ such that
+		 there are no edges between $v_1,\ldots,v_k$ in $G$ and every vertex $v_i$ is neighbor to $u$. \grade{10}
+	
+	\medskip
+		For this problem, use a reduction from the \emph{maximum independent set problem}. Recall that in the maximum independent set problem, you are given an undirected graph $G=(V,E)$ and the goal is to find the largest independent set
+		in $G$, namely, the largest set of vertices with no edges between them. 
+		
+		\medskip
+		\begin{solution}
+		\end{solution}
+		
+	\end{enumerate}
+\end{problem}
+
+
+		
+\newpage
+
+\begin{problem}\label{extra}[\textbf{Extra credit}]
+You are given a set $C$ of $p$ courses that a student has taken. You are also given $q$ subsets $S_1,\ldots,S_q$ of $C$, and $q$ integers $r_1,\ldots,r_q$. In order to graduate, the 
+student has to meet the following $q$ requirements: 
+\begin{itemize}
+\item For every $1 \leq i \leq q$, the student needs to have taken at least $r_i$ courses from the subset $S_i$. 
+\end{itemize}
+The goal is to determine whether or not the courses taken by the student can be used to satisfy all $q$ requirements.
+The tricky part is that any given course \emph{cannot} be used towards satisfying multiple requirements. 
+
+\smallskip
+For example, if one requirement 
+states that the student should have taken $2$ courses from $S_1 =  \set{A,B,C}$ and another requirement asks for taking $2$ courses from
+$S_2 = \set{C,D,E}$, then a student who had taken just $\set{B,C,D}$ \emph{cannot} graduate. 
+
+\smallskip
+Design a polynomial time algorithm that given a set $C$ of $p$ courses a student has taken, $q$ subsets $S_1,\ldots,S_q$ of $C$, and $q$ integers $r_1,\ldots,r_q$, determines whether or not the student can graduate.    
+
+\end{problem}
+
+\medskip
+		\begin{solution}
+		\end{solution}
+		
+
+
+\end{document}
+
+
+
+
+

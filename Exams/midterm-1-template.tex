@@ -1,0 +1,268 @@
+\documentclass{article}
+
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%=====================================================
+% Add PACKAGES Here (You typically would not need to):
+%=====================================================
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amsthm}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{graphicx}
+%=====================================================
+% Ignore This Part (But Do NOT Delete It:)
+%=====================================================
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{fun}{Fun with Algorithms}
+\newtheorem*{challenge}{Challenge Yourself}
+\def\fline{\rule{0.75\linewidth}{0.5pt}}
+\newcommand{\finishline}{\vspace{-15pt}\begin{center}\fline\end{center}}
+\newtheorem*{solution*}{Solution}
+\newenvironment{solution}{\begin{solution*}}{{} \end{solution*}}
+\newcommand{\grade}[1]{\hfill{\textbf{($\mathbf{#1}$ points)}}}
+\newcommand{\thisdate}{\today}
+\newcommand{\thissemester}{\textbf{Rutgers: Spring 2022}}
+\newcommand{\thiscourse}{CS 344: Design and Analysis of Computer Algorithms} 
+\newcommand{\thishomework}{Number} 
+\newcommand{\thisname}{Name} 
+\newcommand{\thisextension}{Yes/No} 
+
+\headheight 40pt              
+\headsep 20pt
+\renewcommand{\headrulewidth}{0pt}
+\lhead{\small \textbf{Only for the personal use of students registered in CS 344, Spring 2022 at Rutgers University. Redistribution out of this class is strictly prohibited.}}
+\pagestyle{fancy}
+
+\newcommand{\thisheading}{
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { \textbf{\thiscourse \hfill \thissemester} }
+       \vspace{8mm}
+       \hbox to 6.28in { {\Large \hfill  Midterm Exam \#\thishomework \hfill} }
+       \vspace{2mm}
+         \hbox to 6.28in { { \hfill ~ February 24, 2022 \hfill} }
+       \vspace{4mm}
+       \hbox to 6.28in { \emph{Name: \underline{\thisname} \hfill NetID: \underline{\thisextension}}}
+      \vspace{2mm}}
+      }
+   \end{center}
+   \bigskip
+}
+
+%=====================================================
+% Some useful MACROS (you can define your own in the same exact way also)
+%=====================================================
+
+
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\prob}[1]{\Pr\paren{#1}}
+\newcommand{\expect}[1]{\Exp\bracket{#1}}
+\newcommand{\var}[1]{\textnormal{Var}\bracket{#1}}
+\newcommand{\set}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\poly}{\mbox{\rm poly}}
+
+\newcommand{\totalsum}{\textnormal{\texttt{TOTAL-SUM}}}
+\newcommand{\maxalg}{\textnormal{\texttt{MAX-ALG}}}
+\newcommand{\minalg}{\textnormal{\texttt{MIN-RAND-ALG}}}
+
+%=====================================================
+% Fill Out This Part With Your Own Information:
+%=====================================================
+
+
+\renewcommand{\thishomework}{1} %Exam number -- Do NOT change
+\renewcommand{\thisname}{name} % Your name
+\renewcommand{\thisextension}{netid} % Write your NetID here
+
+\begin{document}
+
+\thisheading
+
+\vspace{-0.5cm}
+\subsection*{Instructions}
+
+\begin{enumerate}
+	\item Do not forget to write your name and NetID above, and to sign Rutgers honor pledge below. 
+	\item The exam contains $4$ problems worth $100$ points in total \emph{plus} one {extra} credit problem worth $10$ points. 
+	\item This is a take-home exam. You have exactly 24 hours to finish the exam, starting from Thursday, February 24, 9am EST until Friday, February 25, 9am EST.
+	\item The exam should be done \textbf{individually} and you are not allowed to discuss these questions with anyone else. This includes asking any questions or clarifications
+	regarding the exam from other students or posting them publicly on Piazza (\textbf{any inquiry should be posted privately on Piazza}). You may however consult all
+	the materials used in this course (video lectures, notes, textbook, etc.) while writing your solution, but \textbf{no other resources are allowed}.
+
+	\item Remember that you can leave a problem (or parts of it) entirely blank and receive $25\%$ of the grade for that problem (or part). However, this should not  discourage you from attempting a problem if you think 
+	you know how to approach it as you will receive partial credit more than $25\%$ if you are on the right track. But keep in mind that if you simply do not know the answer, writing a very wrong answer may lead to $0\%$ credit.
+	
+	The only \textbf{exception} to this rule is the extra credit problem: you do {not get any credit for leaving the extra credit problem blank}, and there is almost no partial credit on that problem.
+	
+	\item \textbf{You should always prove the correctness of your algorithm and analyze its runtime.} Also, as a general rule, avoid using complicated pseudo-code and instead explain your algorithm in English. 
+	\item You may use any algorithm presented in the class or homeworks as a building block for your solutions. 
+\end{enumerate}
+
+\finishline
+
+\paragraph{Rutgers honor pledge:} 
+
+\begin{quote}
+\emph{On my honor, I have neither received nor given any unauthorized assistance on this
+examination.} 
+\end{quote}
+\hfill{Signature:\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}}
+
+\bigskip
+
+\begin{center}
+\begin{tabular}{|c|r|c|}
+\hline
+Problem. \# & Points & Score \\ \hline\hline
+$1$ & 25 & ~~~~~~~~~~~\\  \hline
+$2$ & 25 & \\ \hline
+$3$ & 25 & \\ \hline
+$4$ & 25 & \\ \hline
+$5$ & +10 & \\ \hline
+Total & $100 + 10$ & \\ \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+\begin{problem}\label{basics}~
+\begin{enumerate}[label=(\alph*)]
+	\item  Determine the \emph{strongest} asymptotic relation between the functions 
+	\[
+	f(n) = 2^{\sqrt{n}} \quad \text{and} \quad g(n) = n^4,
+	\]
+	i.e., whether $f(n) = o(g(n))$, $f(n) = O(g(n))$, $f(n) = \Omega(g(n))$, $f(n) = \omega(g(n))$, or $f(n) = \Theta(g(n))$. 
+	Remember to prove the correctness of your choice. \grade{15}
+
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+	\newpage
+	\item Use the \emph{recursion tree} method to solve the following recurrence $T(n)$ by finding the \emph{tightest} function $f(n)$ such that $T(n) = O(f(n))$.   \grade{10}
+	\begin{align*}
+		T(n) &\leq 3 \cdot T(n/2) + O(n^2) 
+	\end{align*} 
+	
+	
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+
+	\vspace*{\fill}
+\end{enumerate}
+\end{problem}
+
+\newpage
+
+
+\begin{problem}\label{induction}
+	Consider the algorithm below for finding the sum of numbers in an array $A$ of size $n \geq 1$.  
+	
+	\medskip
+	
+	$\totalsum (A[1:n])$: \vspace{-0.4cm}
+	\medskip
+	\begin{enumerate}
+		\item If $n=1$, return $A[1]$. 
+		\item Otherwise, return $\totalsum(A[1:n-1])$ + $A[n]$. 
+	\end{enumerate}
+
+	We analyze \totalsum~ in this question. 
+	\begin{enumerate}[label=(\alph*)]
+		\item Use \textbf{induction} to prove the correctness of this algorithm. \grade{15}
+		
+		
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+		\newpage
+		\item Write a recurrence for this algorithm and solve it to obtain a tight upper bound on the worst case runtime of this algorithm. You can use any method you like for solving this recurrence. 		\grade{10}
+		
+		
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+	\end{enumerate}
+\end{problem} 
+
+\newpage
+
+\begin{problem}\label{sort}
+	You are given an \emph{unsorted} array $A[1:n]$ of $n$ distinct positive integers. Design an algorithm that in $O(n)$ worst-case time finds the largest number in $\set{1,\ldots,n+1}$ that is missing from $A$. 
+	\grade{25}
+	
+	Remember to \emph{separately} write your algorithm (\textbf{10 points}), the proof of correctness (\textbf{10 points}), and runtime analysis (\textbf{5 points}). 
+	
+	\medskip
+	\emph{Example.} For $n=8$ and $A=[9,8,70,30,2,7,4,5]$ the correct answer is $6$ (because the largest number in $\set{1,\ldots,9}$ which is missing from $A$ is $6$). 
+
+\end{problem}
+
+
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+\newpage
+
+\begin{problem}\label{DP}
+We want to purchase an item of price $M$ and for that we have a collection of $n$ different coins in an array $C[1:n]$ where coin $i$ has value $C[i]$ (we only have one copy of each coin).  
+	Our goal is to purchase this item using the \emph{smallest} possible number of coins or outputting that the item cannot be purchased with these coins. 
+	Design a \textbf{dynamic programming} algorithm for this problem with worst-case runtime of $O(n \cdot M)$. \grade{25}
+	
+	Remember to \emph{separately} write your specification of recursive formula in plain English (\textbf{7.5 points}), your recursive solution for the formula and its proof of correctness (\textbf{7.5 points}), the algorithm using either memoization 
+	or bottom-up dynamic programming (\textbf{5 points}), and runtime analysis (\textbf{5 points}). 
+	
+	\emph{Example:} 
+	\begin{itemize}
+		\item Given $M=15$, $n=7$, and $C = [4,9,3,2,7,5,6]$, the correct answer is $2$ by picking $C[2]=9$ and $C[7]=6$ which add up to $15$. 
+		\item Given $M=11$, $n=4$, and $C = [4,3,5,9]$, the correct answer is that `the item cannot be purchased' as no combination of these coins adds up to a value of $11$ (recall that we can only use each coin once). 
+	\end{itemize}
+\end{problem}
+
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+\newpage
+\begin{problem}[\textbf{Extra credit}]\label{extra}
+	You are given an \emph{unsorted} array $A[1:n]$ of $n$ distinct numbers with the promise that $A[1] > A[2]$ and $A[n] > A[n-1]$. 
+	Design an algorithm that in $O(\log{n})$ worst case runtime finds an index $i \in \set{2,\ldots,n-1}$ such that $A[i]$ is smaller than both $A[i-1]$ and $A[i+1]$. If there are multiple indices with this property, your algorithm can output one of them. 
+	\grade{+10}
+
+\emph{Example:} Given $A=[3,2,7,8,1,4,5,6]$, one right answer is to output $A[2]=2$, and another one is $A[5]=1$. 
+\end{problem}
+
+\smallskip
+\begin{solution}
+	% Write your solution starting from next line: 
+\end{solution}
+
+\newpage
+\subsection*{Extra Workspace}
+
+
+\end{document}
+
+
+
+
+
